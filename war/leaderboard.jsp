@@ -118,7 +118,7 @@
                     
                     Collections.reverse(list);
 
-					int c =1;
+					int c =0;
 					
                     for (Score ratingScore : list) {
                         String ratingUsername = ratingScore.getUser();
