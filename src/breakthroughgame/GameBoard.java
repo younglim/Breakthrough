@@ -22,7 +22,7 @@ public class GameBoard {
         GameResult result = null;
         int count = 0;
 
-        if (player == 'b') {
+        if (player == 'x') {
             while (moveNotMade) {
                 if (count == tries) {
                     break;
@@ -43,7 +43,7 @@ public class GameBoard {
                 }// check verifier
                 count++;
             } //While loop
-        } else if (player == 'w') {
+        } else if (player == 'y') {
             while (moveNotMade) {
                 if (count == 100) {
                     break;
