@@ -1,6 +1,6 @@
 <div class="alert alert-info alert-dismissable" style="margin-top:25px">
     <button onclick="$(this).parent('div').hide();" type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <h4><b>Introduction</b></h4>
+    <h4><b>Introduction to Breakthrough</b></h4>
     <p>Breakthrough is a game played on an 8x8 chessboard. Two rows of <b>WHITE</b> pieces on top and two rows of <b>BLACK</b> pieces below. Pieces can move one step forward or diagonally at a time. <b>WHITE</b> pieces move down while <b>BLACK</b> pieces move up the board. Only one piece is permitted on a square at a time. Capture your opponent's pieces diagonally. The winner is the first player to advance one of its pieces to the opposite end of the board.</p><br>
 
     <h4><b>How to Play</b></h4>
