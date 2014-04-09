@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Breakthrough - Leaderboard</title>
+        <title>Breakthrough - Unique Bots</title>
         <%@page import="Store.*, java.util.*, java.text.*, java.sql.*" %>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,8 +11,7 @@
         <meta name="author" content="">
         <!-- Bootstrap core CSS -->
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"><script src="https://code.jquery.com/jquery-1.10.2.min.js"></script><script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-
-
+        <!-- Custom styles for this template -->
         <style>
             /* app css stylesheet */
             body {
@@ -49,7 +48,25 @@
             }
         </style>
         <jsp:include page="analytics.jsp"></jsp:include>
-        <%            List<User> users = UserManager.getAllUsers();
+        <%            List<BotCode> botCodes = BotCodeManager.getAllBotCodes();
+            HashMap<String, Integer> uniqueBotCodes = new HashMap<String, Integer>();
+            HashMap<String, ArrayList<String>> users = new HashMap<String, ArrayList<String>>();
+
+            for (BotCode bc : botCodes) {
+                if (uniqueBotCodes.get(bc.getBotCode()) == null) {
+                    uniqueBotCodes.put(bc.getBotCode(), 1);
+                    ArrayList<String> botUsers = new ArrayList<String>();
+                    botUsers.add(bc.getUser());
+
+                    users.put(bc.getBotCode(), botUsers);
+
+                } else {
+                    uniqueBotCodes.put(bc.getBotCode(), uniqueBotCodes.get(bc.getBotCode()) + 1);
+                    users.get(bc.getBotCode()).add(bc.getUser());
+                }
+
+            }
+
         %>
     </head>
     <body>
@@ -76,58 +93,48 @@
             </div>
         </div>
         <div class="container-narrow">
-            <h4>Users Ranking</h4><br>
+            <h4>Unique Bots and Users</h4><br/>
             <jsp:include page="facebookShare.html"></jsp:include>
+                <br><br/>    
+                <a href="leaderboard.jsp">Back to Leaderboard</a>
                 <br/><br/>
-                 <a href="winningBots.jsp">View Winning Bots</a>
-                 <br/><br/>
-            	<a href="uniqueBots.jsp">View Unique Bots</a>
-                 <br/><br/>
+
                 <table class="table table-hover">
                     <tr>
-                        <th>User</th>
-                        <th>ELO Rating</th>
-                        <th>Number of Games Played</th>
-                        <th>Trend</th>
+                        <th>Bot Code</th>
+                        <th>Number of Users</th>
+                        <th>User List</th>
+
                     </tr>
-                <%
-                    ArrayList<Score> list = new ArrayList<Score>();
+                <%    Iterator it = uniqueBotCodes.entrySet().iterator();
 
-                    for (User u : users) {
-                        String ratingUsername = u.getUser();
-                        Score ratingScore = ScoreManager.getScore(ratingUsername);
+                    while (it.hasNext()) {
+                        Map.Entry pairs = (Map.Entry) it.next();
+                        String code = (String) pairs.getKey();
+                        int numbers = (Integer) pairs.getValue();
 
-                        if (ratingScore != null) {
-                            list.add(ratingScore);
+                        it.remove(); // avoids a ConcurrentModificationException
 
+                        ArrayList<String> botUser = users.get(code);
+                        String userList = "";
+
+                        for (String u : botUser) {
+                            userList += u + "<br/>";
                         }
-                    }
-                    Collections.sort(list, new Comparator<Score>() {
-                       
-                        public int compare(Score sc1, Score sc2) {
 
-                            return sc1.getScore().compareTo(sc2.getScore());
-                        }
-                    });
-                    
-                    Collections.reverse(list);
 
-                    for (Score ratingScore : list) {
-                        String ratingUsername = ratingScore.getUser();
-                        Long userNumberOfGames = ratingScore.getNumberOfGames();
-                        Long userScore = ratingScore.getScore();
                 %>
                 <tr>
-                    <td><%=ratingUsername%></td>
-                    <td><%=userScore%></td>
-                    <td><%=userNumberOfGames%></td>
-                    <td><a href="chart.jsp?requestedUsername=<%=ratingUsername%>">View Trend</a></td>
+                    <td><%=code.replaceAll("\n", "<br/>").replaceAll("\t", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")%></td>
+                    <td><%=numbers%></td>
+                    <td><%=userList%></td>
+
                 </tr>
-                <% }
+                <%  }
                 %>
             </table>
             <br/>
-           
-        </div>
+
+        </div><!-- /.container -->
     </body>
 </html>
