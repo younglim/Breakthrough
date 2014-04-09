@@ -28,7 +28,7 @@
 
     result r = new result(username, "An unknown error has occured. Please specify username and password parameters.");
 
-    if (username == null || password == null || username.isEmpty() || password.isEmpty() || !isAlphaNumeric(username) || username.length() < 5 || user.length()>12 || password.length() < 6) {
+    if (username == null || password == null || username.isEmpty() || password.isEmpty() || !isAlphaNumeric(username) || username.length() < 5 || username.length()>12 || password.length() < 6) {
         r = new result(username, "Please ensure username is alphanumeric and at least 4 characters long, and Password is at least 6 characters long.");
 
     } else {

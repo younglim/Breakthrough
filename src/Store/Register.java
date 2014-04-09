@@ -27,7 +27,7 @@ public class Register extends HttpServlet {
         String username = request.getParameter("newusername");
         String password = request.getParameter("newpassword");
 
-        if (username == null || password == null || username.isEmpty() || password.isEmpty() || !isAlphaNumeric(username) || username.length() < 5 || user.length()>12 || password.length() < 6) {
+        if (username == null || password == null || username.isEmpty() || password.isEmpty() || !isAlphaNumeric(username) || username.length() < 5 || username.length()>12 || password.length() < 6) {
             HttpSession session = request.getSession(true);
             RequestDispatcher view = request.getRequestDispatcher("login.jsp");
 
