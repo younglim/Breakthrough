@@ -48,6 +48,9 @@
             }
         </style>
         <jsp:include page="analytics.jsp"></jsp:include>
+        
+      
+        
         <%            List<BotCode> botCodes = BotCodeManager.getAllBotCodes();
             HashMap<String, Integer> uniqueBotCodes = new HashMap<String, Integer>();
             HashMap<String, ArrayList<String>> users = new HashMap<String, ArrayList<String>>();
@@ -67,6 +70,8 @@
 
             }
 
+			  int total = uniqueBotCodes.size();
+			  
         %>
     </head>
     <body>
@@ -99,6 +104,7 @@
                 <a href="leaderboard.jsp">Back to Leaderboard</a>
                 <br/><br/>
 
+				<h5>Number of Unique Bots: <%=total%></h5>
                 <table class="table table-hover">
                     <tr>
                         <th>Bot Code</th>
