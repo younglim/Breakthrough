@@ -33,19 +33,22 @@ public class Register extends HttpServlet {
 
             request.setAttribute("registration_error", "Please ensure username is alphanumeric and at least 4 characters long, and Password is at least 6 characters long.");
             view.forward(request, response);
-        }
-        User user = UserManager.getUser(username);
-        HttpSession session = request.getSession(true);
-        RequestDispatcher view = request.getRequestDispatcher("login.jsp");
-
-        if (user == null) {
-
-            UserManager.addUser(username, password, "");
-            session.setAttribute("current_userID", username);
-            response.sendRedirect("index.jsp?username=" + username);
         } else {
-            request.setAttribute("registration_error", "Please choose another username!");
-            view.forward(request, response);
-        } // end if-else
+
+            User user = UserManager.getUser(username);
+            HttpSession session = request.getSession(true);
+            RequestDispatcher view = request.getRequestDispatcher("login.jsp");
+
+            if (user == null) {
+
+                UserManager.addUser(username, password, "");
+                session.setAttribute("current_userID", username);
+                response.sendRedirect("index.jsp?username=" + username);
+            } else {
+                request.setAttribute("registration_error", "Please choose another username!");
+                view.forward(request, response);
+            } // end if-else
+        }
+
     }
 }

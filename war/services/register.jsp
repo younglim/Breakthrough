@@ -31,21 +31,21 @@
     if (username == null || password == null || username.isEmpty() || password.isEmpty() || !isAlphaNumeric(username) || username.length() < 5 || password.length() < 6) {
         r = new result(username, "Please ensure username is alphanumeric and at least 4 characters long, and Password is at least 6 characters long.");
 
-    }
+    } else {
+        try {
+            User user = UserManager.getUser(username);
 
-    try {
-        User user = UserManager.getUser(username);
+            if (user == null) {
+                UserManager.addUser(username, password, "");
+                r = new result(username, "Successfully registered user.");
 
-        if (user == null) {
-            UserManager.addUser(username, password, "");
-            r = new result(username, "Successfully registered user.");
+            } else {
+                r = new result(username, "Username is already taken.");
 
-        } else {
-            r = new result(username, "Username is already taken.");
+            } // end if-else
+        } catch (Exception e) {
 
-        } // end if-else
-    } catch (Exception e) {
-
+        }
     }
 
     Gson gson = new Gson();
