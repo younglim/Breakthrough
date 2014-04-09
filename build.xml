@@ -1,0 +1,44 @@
+<project>
+  
+  <path id="project.classpath">
+    <pathelement path="war/WEB-INF/classes" />
+    <fileset dir="war/WEB-INF/lib">
+      <include name="**/*.jar" />
+    </fileset>
+  </path>
+
+ <target name="compile"
+      description="Compiles Java source and copies other source files to the WAR.">
+    <mkdir dir="war/WEB-INF/classes" />
+    <copy todir="war/WEB-INF/classes">
+      <fileset dir="src">
+        <exclude name="**/*.java" />
+      </fileset>
+    </copy>
+    <javac
+        srcdir="src"
+        destdir="war/WEB-INF/classes"
+        classpathref="project.classpath"
+        debug="on" />
+  </target>
+
+  <target name="test" depends="compile">
+    <delete dir="reports" />
+    <mkdir dir="reports" />
+    <junit fork="yes" printsummary="yes" haltonfailure="yes">
+      <formatter type="xml"/>
+      <classpath>
+        <path location="war/WEB-INF/classes"/>
+        <fileset dir="war/WEB-INF/lib">
+          <include name="**/*.jar" />
+        </fileset>
+      </classpath>
+      <test name="breakthroughgame.GameBoardTest" haltonfailure="yes" todir="reports">
+        <!-- Change the class in name="" to your Java test class. -->
+        <formatter type="xml" />
+      </test>
+    </junit>
+  </target>
+  
+  
+</project>
