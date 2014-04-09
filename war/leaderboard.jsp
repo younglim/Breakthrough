@@ -50,6 +50,7 @@
         </style>
         <jsp:include page="analytics.jsp"></jsp:include>
         <%            List<User> users = UserManager.getAllUsers();
+        				int totalUsers = users.size();
         %>
     </head>
     <body>
@@ -83,8 +84,12 @@
                  <br/><br/>
             	<a href="uniqueBots.jsp">View Unique Bots</a>
                  <br/><br/>
+                 
+                 <h5>Total Number of Users Signed Up: <%=totalUsers%></h5>
+                 
                 <table class="table table-hover">
                     <tr>
+                    	<th>Ranking #</th>
                         <th>User</th>
                         <th>ELO Rating</th>
                         <th>Number of Games Played</th>
@@ -93,6 +98,7 @@
                 <%
                     ArrayList<Score> list = new ArrayList<Score>();
 
+					
                     for (User u : users) {
                         String ratingUsername = u.getUser();
                         Score ratingScore = ScoreManager.getScore(ratingUsername);
@@ -112,12 +118,16 @@
                     
                     Collections.reverse(list);
 
+					int c =1;
+					
                     for (Score ratingScore : list) {
                         String ratingUsername = ratingScore.getUser();
                         Long userNumberOfGames = ratingScore.getNumberOfGames();
                         Long userScore = ratingScore.getScore();
+                        c += 1;
                 %>
                 <tr>
+                	<td><%=c%></td>
                     <td><%=ratingUsername%></td>
                     <td><%=userScore%></td>
                     <td><%=userNumberOfGames%></td>
